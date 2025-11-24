@@ -1,0 +1,22 @@
+{
+  "name": "pathkopa",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm --workspaces  run build",
+    "lint": "npm --workspaces  run lint",
+    
+    "install": "npm install --workspaces",
+    "update": "npm update --workspaces",
+    
+    "dev:server": "npm --workspace server run dev",
+    "dev:client": "npm --workspace=client run dev",
+    
+    "start:server": "npm --workspace server run start",
+    "start:client": "npm --workspace=client run start",
+    
+    "build:client": "npm --workspace=client run build"
+  }
+}

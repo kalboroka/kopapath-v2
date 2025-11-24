@@ -1,0 +1,69 @@
+div.loan-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  >div.loan-wrapper {
+    background-color: #ffe5bc;
+    width: fit-content;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px 0;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem 0;
+    
+    >div {
+      line-height: 1.5;
+      >h5 {
+        color: darkslateblue;
+        border-bottom: 1px solid darkslateblue;
+      }
+      
+      >div.info {
+        
+        >div {
+          display: grid;
+          grid-template-columns: 5rem auto;
+          
+          >span {
+            
+            &:first-child {
+              font-size: 0.8rem;
+              color: teal;
+              text-shadow: 0.5px 0.5px 0px whitesmoke;
+            }
+            
+            &:last-child {
+              font-size: 0.75rem;
+            }
+          }
+        }
+      }
+      
+      &.actions {
+        display: flex;
+        gap: 0 0.5rem;
+        
+        >button {
+          padding: 0.375rem 0.75rem;
+          border: none;
+          border-radius: 0.25rem;
+          box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px;
+          
+          &:first-child {
+            background-color: orangered;
+            color: papayawhip;
+          }
+        }
+      }
+    }
+  }
+}

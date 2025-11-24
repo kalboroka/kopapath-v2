@@ -1,0 +1,9 @@
+/* AppState Reducer */
+export function appReducer(state, action) {
+  switch (action.type) {
+    case 'setModal': return { ...state, modal: { ...state.modal, ...action.value } };
+    case 'setUser': return { ...state, user: { ...state.user, ...action.value } };
+    case 'setLoader': return { ...state, loader: action.value };
+    default: return state;
+  }
+}

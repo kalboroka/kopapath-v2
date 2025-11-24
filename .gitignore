@@ -1,0 +1,8 @@
+.git
+node_modules
+apps/server/test*
+apps/client/dist
+apps/server/public
+apps/server/.env
+
+

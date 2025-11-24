@@ -1,0 +1,60 @@
+@font-face {
+	font-family: Cascadia;
+	src: url("./assets/fonts/Cascadia.ttf");
+}
+
+:root {
+  min-height: 100vh;
+  min-width: 100vw;
+  line-height: 1.25;
+  font-size: 16px;
+  font-family: Cascadia;
+  -webkit-font-smoothing: antialiased;
+  background-color: papayawhip;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+span.lu-icon {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+input::placeholder {
+  color: darkgray;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+}
+
+button {
+  user-select: none;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
