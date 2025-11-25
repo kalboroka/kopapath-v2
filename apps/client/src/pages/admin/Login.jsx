@@ -8,7 +8,7 @@ export default class Login extends Component {
         afxLocal={{
           mode: 'admin',
           fields: ['userid', 'pxsign', 'secret'],
-          url: 'login',
+          url: 'admin/login',
           formChild: null
         }}
         {...this.props}

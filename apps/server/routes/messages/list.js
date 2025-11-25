@@ -6,6 +6,8 @@ const list = async (req, res, next) => {
       `SELECT *
        FROM messages
        WHERE user_id=$1
+       UNION ALL
+       SELECT * FROM broadcasts
        ORDER BY sent_at`,
       [req.user.id]
     );

@@ -1,6 +1,5 @@
 import { pool } from '#config'
-import { hash, sendMsg } from '#utils';
-import { badReq } from './utils.js';
+import { hash, sendMsg, badReq } from '#utils';
 
 const confirm_reset = async (req, res, next) => {
   const { token, secret } = req.body;

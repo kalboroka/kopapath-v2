@@ -1,15 +1,13 @@
 div.container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
   
   
   &>div.header {
     box-shadow: rgba(0, 0, 0, 0.375) 0px 1px 6px -2px;
     position: sticky;
     top: 0;
-    z-index: 9;
     background-color: papayawhip;
     
     &>div.wrapper {
@@ -49,8 +47,9 @@ div.container {
     justify-content: center;
     align-items: center;
     padding: 1rem 1.125rem;
-    position: sticky;
+    position: fixed;
     bottom: 0;
+    width: 100%;
     color: darkslateblue;
     font-weight: bold;
     background-color: papayawhip;

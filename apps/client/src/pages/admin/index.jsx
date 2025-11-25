@@ -1,44 +1,10 @@
-import { Component } from 'inferno';
+import { Component, linkEvent } from 'inferno';
+import LoanModal from './LoanModal';
+import { LuInfo } from '@components/Icons';
 import { apiFetch, session, showModal, toggleLoader } from '@utils';
 import '@styles/Admin.css';
-import '@styles/LoanModal.css';
 
 const fmt = x => new Intl.NumberFormat('en-KE', { maximumFractionDigits: 0 }).format(x);
-
-const LoanModal = ({ loan, toggler }) => (
-  loan ?
-    <div class="loan-modal">
-      <div class="loan-wrapper">
-          <div class="user">
-            <h5>User Details</h5>
-            <div class="info">
-              <div class=""><span>Name</span> <span>{loan.name}</span></div>
-              <div class=""><span>Mobile</span> <span>+{loan.mobile}</span></div>
-              <div class=""><span>Email</span> <span>{loan.email}</span></div>
-            </div>
-          </div>
-          <div class="loan">
-            <h5>Loan Details</h5>
-            <div class="info">
-              <div class=""><span>Amout</span> <span>{loan.amount}</span></div>
-              <div class=""><span>Rate</span> <span>{loan.rate * 100}%</span></div>
-              <div class=""><span>Term</span> <span>{loan.term} Day{loan.term > 1 ? 's' : ''}</span></div>
-              <div class=""><span>Status</span> <span>{loan.status}</span></div>
-              <div class=""><span>Total</span> <span>{loan.total_due}</span></div>
-              <div class=""><span>Due On</span> <span>{loan.due_date.slice(0, 10)}</span></div>
-              <div class=""><span>Applied</span> <span>{loan.applied_at.slice(0, 10)}</span></div>
-              <div class=""><span>Disbursed</span> <span>{loan.disbursed_at?.slice(0, 10)}</span></div>
-              <div class=""><span>Closed</span> <span>{loan.closed_at?.slice(0, 10)}</span></div>
-            </div>
-          </div>
-        <div class="actions">
-          {loan.status !== 'done' && <button class="patch" onClick={() => { }}>Mark {loan.status === 'pending' ? 'Active' : 'Done'}</button>}
-          <button class="cancel" onClick={() => toggler()}>Cancel</button>
-        </div>
-      </div>
-    </div> :
-    null
-);
 
 export default class Admin extends Component {
   state = {
@@ -67,6 +33,55 @@ export default class Admin extends Component {
     this.props.updateUser(null);
   }
 
+  onSubmit = async (ctx, event) => {
+    event.preventDefault();
+    const form = event.currentTarget.closest('form');
+    if (!form) return;
+    const fields = ctx[0].split(';');
+    const body = Object.fromEntries(fields.map(f => [f, form[f]?.value]));
+    try {
+      toggleLoader(this.props, 'on');
+      const { ok, data } = await apiFetch(
+        `/api/v1/admin/${ctx[1]}`,
+        { method: 'POST', bearer: session.get(), body }
+      );
+      if (!ok) throw new Error(data?.msg);
+      fields.forEach(f => form[f].value='');
+      showModal(this.props, data?.msg, 'teal', LuInfo);
+    } catch (err) {
+      showModal(this.props, err.message);
+    } finally {
+      toggleLoader(this.props, 'off');
+    }
+  };
+
+  markLoanStatus = async (loan, event) => {
+    event.preventDefault();
+    const elm = event.target.closest('form');
+    let status = null;
+    if (!elm || !(status = elm?.mark.value) || loan.status === status) return;
+    toggleLoader(this.props, 'on');
+    try {
+      const { ok, data } = await apiFetch(`/api/v1/admin/loans/mark/${loan.loan_id}`, {
+        method: 'PATCH',
+        bearer: session.get(),
+        body: { status }
+      });
+      if (!ok) throw new Error(data?.msg);
+
+      // update local list
+      const loans = this.state.loans.map(l =>
+        l.loan_id === loan.loan_id ? { ...l, status } : l
+      );
+
+      this.setState({ loans });
+      showModal(this.props, data?.msg, 'teal', LuInfo);
+    } catch (err) {
+      showModal(this.props, err.message);
+    }
+    toggleLoader(this.props, 'off');
+  };
+
   render() {
     const { user } = this.props;
     const { tabs, loans, loanModal } = this.state;
@@ -87,7 +102,7 @@ export default class Admin extends Component {
             <summary>Update Loan Amount</summary>
             <div class="details">
               <h6 class="warning">NOTE: Critical Action!</h6>
-              <form>
+              <form onSubmit={linkEvent(['amount', 'bucket/update'], this.onSubmit)}>
                 <div class="input-info">
                   <label for="amount">Amount</label>
                   <input name="amount" type="number" placeholder="KES 10,000" />
@@ -102,7 +117,7 @@ export default class Admin extends Component {
             <summary>Send Message</summary>
             <div class="details">
               <h6 class="warning">NOTE: Irreversible Action!</h6>
-              <form>
+              <form onSubmit={linkEvent(['receiver;message', 'messages/send'], this.onSubmit)}>
                 <div class="input-info">
                   <label for="receiver">Receiver</label>
                   <input name="receiver" type="text" placeholder="email or mobile" />
@@ -121,7 +136,7 @@ export default class Admin extends Component {
             <summary>Broadcast Message</summary>
             <div class="details">
               <h6 class="warning">NOTE: Irreversible Action!</h6>
-              <form>
+              <form onSubmit={linkEvent(['message', 'messages/broadcast'], this.onSubmit)}>
                 <div class="input-info">
                   <label for="message">Message</label>
                   <input name="message" type="text" placeholder="Message Text" />
@@ -135,7 +150,7 @@ export default class Admin extends Component {
           <details class="view-loans">
             <summary>View Loans</summary>
             <div class="details">
-              {loanModal && <LoanModal loan={loans.find(l => l.loan_id === this.state.loanId)} toggler={() => this.setState({ loanModal: false })} />}
+              {loanModal && <LoanModal loan={loans.find(l => l.loan_id === this.state.loanId)} onExit={() => this.setState({ loanModal: false })} onMark={this.markLoanStatus} />}
               <h6 class="warning">NOTE: Update Cautiously!</h6>
               <div
                 class="tabs"
@@ -161,7 +176,7 @@ export default class Admin extends Component {
               <div class="content">
                 {loans.some(l => tabs.all || tabs[l.status]) ? (<>
                   <table>
-                    <thead><tr><th>Ref</th><th>Amount</th><th>Term</th><th>Status</th><th>TotalDue</th></tr></thead>
+                    <thead><tr><th>Ref</th><th>Amount</th><th>Term</th><th>Status</th><th>Total Due</th></tr></thead>
                     <tbody
                       onClick={(event) => {
                         let row = null;

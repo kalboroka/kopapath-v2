@@ -89,7 +89,7 @@ export default class AuthForm extends Component {
       // login
       session.set(data.accessToken);
       session.set(data.user, 'User');
-      this.props.history.push(mode === 'admin' ? '/admin' : '/admin');
+      this.props.history.push(mode === 'admin' ? '/admin' : '/');
     } catch (err) {
       showModal(this.props, err.message);
     } finally {

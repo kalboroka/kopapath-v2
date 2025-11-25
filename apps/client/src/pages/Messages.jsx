@@ -15,9 +15,9 @@ export function fmtDate(d) {
 
 class Message extends Component {
   componentDidMount() {
-    const { msgInfo: { id, ack_at } } = this.props;
-    if (!ack_at) {
-      apiFetch(`/api/v1/messages/${id}/ack`, {
+    const { msgInfo: { id, cat, ack_at } } = this.props;
+    if (cat==='msg' && !ack_at) {
+      apiFetch(`/api/v1/messages/ack/${id}`, {
         method: 'PATCH',
         bearer: session.get()
       }).catch(err => console.warn('Message ack failed:', err.message));

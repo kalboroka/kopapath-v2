@@ -1,6 +1,5 @@
 import { pool } from '#config'
-import { newRandomToken, sendMsg, sendResetLink } from '#utils';
-import { badReq, getUserById } from './utils.js';
+import { badReq, getUserById, newRandomToken, sendMsg, sendResetLink } from '#utils';
 
 const reset_secret = async (req, res, next) => {
   const { userid } = req.body;

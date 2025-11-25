@@ -1,5 +1,5 @@
 import { NavLink } from 'inferno-router';
-import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut } from './Icons';
+import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut, LuCircleX } from './Icons';
 import { apiFetch, session, showModal, toggleLoader } from '@utils';
 
 import '@styles/Sidebar.css';
@@ -33,11 +33,17 @@ export default (props) => (
   props.sidebar ?
     <div className="sidebar">
       <div className="wrapper">
+        <span
+          className='close'
+          onClick={() => props.toggleSidebar()}
+        >
+          <LuCircleX size={24} color='darkslateblue' />
+        </span>
         <ul className="links">
           {links.map(({ icon: Icon, label, link }) => (
             <li key={label}><NavLink exact to={link}><Icon size={20} /> <span>{label}</span></NavLink></li>
           ))}
-          <button onClick={()=>onClick(props)}><LuLogOut size={20} /> <span>Logout</span></button>
+          <button onClick={() => onClick(props)}><LuLogOut size={20} /> <span>Logout</span></button>
         </ul>
       </div>
     </div>

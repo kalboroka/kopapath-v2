@@ -8,10 +8,11 @@ import loansJoined from './list_joined.js';
 
 const rt = express.Router();
 
-rt.get('/', requireAuth, loans);
-rt.post('/', requireAuth, apply);
-rt.get('/joined', requireAuth, loansJoined);
-rt.get('/bucket', requireAuth, bucket);
-rt.get('/:id', requireAuth, loan);
+rt.use(requireAuth);
+rt.get('/', loans);
+rt.post('/', apply);
+rt.get('/joined', loansJoined);
+rt.get('/bucket', bucket);
+rt.get('/:id', loan);
 
 export default rt;

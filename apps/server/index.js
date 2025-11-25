@@ -1,10 +1,11 @@
 import express from 'express';
-import path from "path";
-import { fileURLToPath } from "url";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
 import { secureApp } from '#middlewares';
 import { migDb } from '#config';
 import authRoutes from '#routes/auth';
+import adminRoutes from '#routes/admin';
 import loanRoutes from '#routes/loans';
 import msgRoutes from '#routes/messages';
 
@@ -30,6 +31,7 @@ app.use(paths, (req, res, next) => {
 });
 */
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/loans', loanRoutes);
 app.use('/api/v1/messages', msgRoutes);
 

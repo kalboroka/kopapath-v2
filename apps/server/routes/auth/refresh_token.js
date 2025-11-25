@@ -1,9 +1,7 @@
 import { pool } from '#config';
-import { compare, signAccess } from '#utils';
-import { rotateRefresh, setRefreshCookie } from './utils.js';
+import { rotateRefresh, setRefreshCookie, compare, signAccess } from '#utils';
 
 const refresh_token = async (req, res, next) => {
-  console.log(req);
   const refresh = req.signedCookies.refreshToken;
   const uid = req.signedCookies.uid;
   if (!refresh || !uid) return res.status(401).json({ msg: 'credentials unmatched' });

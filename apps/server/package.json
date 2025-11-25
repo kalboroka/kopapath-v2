@@ -16,6 +16,7 @@
     "#config": "./config/index.js",
     "#utils": "./utils/index.js",
     "#middlewares": "./middlewares/index.js",
+    "#routes/admin": "./routes/admin/index.js",
     "#routes/auth": "./routes/auth/index.js",
     "#routes/loans": "./routes/loans/index.js",
     "#routes/messages": "./routes/messages/index.js"

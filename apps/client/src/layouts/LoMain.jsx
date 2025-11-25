@@ -1,14 +1,27 @@
-import { withRouter } from 'inferno-router';
+import { Component } from 'inferno';
 import Header from '@components/Header';
+import Sidebar from '@components/Sidebar';
 import Footer from '@components/Footer';
 import '@styles/LoMain.css'
 
-export default withRouter((props) => (
-  <div class="container">
-    <Header {...props} />
+export default class LoMain extends Component {
+  state = {
+    sidebar: false
+  }
 
-    <div class="main">{props.children}</div>
+  toggleSidebar = () => this.setState({ sidebar: !this.state.sidebar })
 
-    <Footer />
-  </div>
-));
+  render() {
+    return (
+      <div class="container">
+        <Header toggleSidebar={this.toggleSidebar} />
+
+        <Sidebar {...this.props} sidebar={this.state.sidebar} toggleSidebar={this.toggleSidebar} />
+
+        <div class="main">{this.props.children}</div>
+
+        <Footer />
+      </div>
+    )
+  }
+}

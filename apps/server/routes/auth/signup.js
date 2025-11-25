@@ -1,6 +1,5 @@
 import { pool } from '#config';
-import { hash, signAccess, sendMsg } from '#utils';
-import { badReq, rotateRefresh, setRefreshCookie } from './utils.js';
+import { badReq, rotateRefresh, setRefreshCookie, hash, signAccess, sendMsg } from '#utils';
 
 const signup = async (req, res, next) => {
   const { name, mobile, email, secret } = req.body;

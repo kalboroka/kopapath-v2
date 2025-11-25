@@ -14,17 +14,20 @@ div.loan-modal {
     width: fit-content;
     padding: 1rem 2rem;
     border-radius: 0.5rem;
-    box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px 0;
+    box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px 0, rgba(0, 0, 0, 0.1) 3px -3px 3px 0;
     
     display: flex;
     flex-direction: column;
     gap: 0.5rem 0;
     
     >div {
-      line-height: 1.5;
+      line-height: 2;
+      
       >h5 {
-        color: darkslateblue;
-        border-bottom: 1px solid darkslateblue;
+        color: black;
+        background-color: orange;
+        border-radius: 0.25rem;
+        padding: 0.25rem;
       }
       
       >div.info {
@@ -34,14 +37,15 @@ div.loan-modal {
           grid-template-columns: 5rem auto;
           
           >span {
+            border-bottom: 0.5px solid lightgray;
             
             &:first-child {
               font-size: 0.8rem;
-              color: teal;
               text-shadow: 0.5px 0.5px 0px whitesmoke;
             }
             
             &:last-child {
+              color: gray;
               font-size: 0.75rem;
             }
           }
@@ -50,18 +54,60 @@ div.loan-modal {
       
       &.actions {
         display: flex;
-        gap: 0 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0 0.75rem;
         
-        >button {
-          padding: 0.375rem 0.75rem;
-          border: none;
-          border-radius: 0.25rem;
-          box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px;
+        >form {
+          display: flex;
+          align-items: center;
+          gap: 0 0.25rem;
           
-          &:first-child {
+          >button {
+            padding: 0.3rem 0.6rem;
+            border: none;
+            border-radius: 0.25rem;
+            box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px;
             background-color: orangered;
             color: papayawhip;
           }
+          
+          >div {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            
+            &.pending {
+              background-color: gray;
+            }
+            
+            &.active {
+              background-color: orange;
+            }
+            
+            &.done {
+              background-color: teal;
+            }
+            
+            &:has(input:focus) {
+              outline: 3px solid orangered;
+              border: 3px solid whitesmoke;
+            }
+            
+            >input {
+              width: 18px;
+              height: 18px;
+              /* visibility: hidden; */
+              opacity: 0;
+            }
+          }
+        }
+        
+        >button {
+          padding: 0.3rem 0.6rem;
+          border: none;
+          border-radius: 0.25rem;
+          box-shadow: rgba(0, 0, 0, 0.1) -3px 3px 3px;
         }
       }
     }

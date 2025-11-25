@@ -43,10 +43,20 @@ export async function migDb() {
         paid_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
       
+      CREATE TABLE IF NOT EXISTS broadcasts (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        msg TEXT NOT NULL,
+        cat CHAR(3) NOT NULL DEFAULT 'bcm',
+        sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ack_at TIMESTAMPTZ
+      );
+      
       CREATE TABLE IF NOT EXISTS messages (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         msg TEXT NOT NULL,
+        cat CHAR(3) NOT NULL DEFAULT 'msg',
         sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         ack_at TIMESTAMPTZ
       );
