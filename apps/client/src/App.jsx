@@ -35,16 +35,16 @@ export default class App extends Component {
     super(props)
     this.state = {
       modal: { on: false, msg: '', icon: null },
-      user: { name: '...', mobile: '...', email: '...' },
+      user: { name: '...', mobile: '...', email: '...', isAdmin: false },
       loader: false
     };
   }
 
   dispatch = (action) => this.setState(appReducer(this.state, action));
 
-  updateUser = (_domNode) => {
-    const user = session.get('User');
-    if (user) this.setState({ user })
+  updateUser = async (_domNode) => {
+    const user = session.get('User')
+    if(user) this.setState({ user })
   }
 
   render() {
@@ -53,7 +53,7 @@ export default class App extends Component {
         <Switch>
           <GuardRoute exact path="/" render={(rp) => <Home {...rp} user={this.state.user} dispatch={this.dispatch} onComponentDidMount={this.updateUser} />} />
           <Route path="/auth" render={(rp) => <Auth {...rp} dispatch={this.dispatch} />} />
-          <GuardRoute path="/admin" render={(rp) => <Admin {...rp} dispatch={this.dispatch} user={this.state.user} updateUser={this.updateUser}/>} />
+          <GuardRoute path="/admin" admin render={(rp) => <Admin {...rp} dispatch={this.dispatch} user={this.state.user} updateUser={this.updateUser} />} />
           <GuardRoute path="/messages" render={(rp) => <Messages {...rp} user={this.state.user} dispatch={this.dispatch} />} />
           <GuardRoute path="/loans" render={(rp) => <Loans {...rp} user={this.state.user} dispatch={this.dispatch} />} />
           <GuardRoute path="/fqas" render={(rp) => <FQAs {...rp} />} dispatch={this.dispatch} />

@@ -7,7 +7,7 @@ const list = async (req, res, next) => {
       'SELECT user_id, l.id as loan_id, name, mobile, email, amount, rate, term, status, total_due, due_date, applied_at, disbursed_at, closed_at FROM users u RIGHT JOIN loans l ON u.id = l.user_id WHERE user_id=$1 ORDER BY applied_at DESC',
       [userId]
     );
-    res.json(result.rows);
+    res.status(200).json(result.rows);
   } catch (err) {
     next(err)
   }

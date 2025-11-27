@@ -2,10 +2,10 @@ import { pool } from '#config';
 
 const bucket = async (req, res, next) => {
   try {
-    const result = await pool.query(
+    const r = await pool.query(
       'SELECT amount FROM bucket'
     );
-    res.json(result.rows[0]);
+    res.status(200).json(r.rows[0]);
   } catch (err) {
     next(err)
   }

@@ -48,7 +48,7 @@ export default class Messages extends Component {
       const { ok, data } = await apiFetch('/api/v1/messages', {
         bearer: session.get()
       });
-      if (!ok) throw new Error(data?.msg || 'Failed to fetch messages');
+      if (!ok) throw new Error(data.err || 'Failed to fetch messages');
       this.setState({ msgList: data })
     } catch (err) {
       showModal(this.props, err.message);

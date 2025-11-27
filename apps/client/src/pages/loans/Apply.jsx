@@ -48,8 +48,8 @@ export default class Apply extends Component {
         body: { ...body, rate: calcRate(body.term), total_due: due },
         bearer: session.get()
       });
-      if(!ok) throw new Error(data?.msg);
-      showModal(this.props, 'Loan application success', 'teal', LuInfo)
+      if(!ok) throw new Error(data.err);
+      showModal(this.props, data.msg, 'teal', LuInfo)
     } catch (err) {
       showModal(this.props, err.message);
     } finally {
@@ -62,7 +62,7 @@ export default class Apply extends Component {
     try {
       toggleLoader(this.props, 'on');
       const { ok, data } = await apiFetch('/api/v1/loans/bucket', { bearer: session.get() });
-      if (!ok) throw new Error(data?.msg);
+      if (!ok) throw new Error(data.err);
       this.setState({ loanable: data.amount});
     } catch (err) {
       showModal(this.props, err.message);

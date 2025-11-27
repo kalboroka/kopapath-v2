@@ -1,5 +1,5 @@
 import { NavLink } from 'inferno-router';
-import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut, LuCircleX } from './Icons';
+import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut } from './Icons';
 import { apiFetch, session, showModal, toggleLoader } from '@utils';
 
 import '@styles/Sidebar.css';
@@ -18,9 +18,9 @@ const onClick = async (props) => {
     toggleLoader(props, 'on');
     props.toggleSidebar();
     const { ok, data } = await apiFetch('/api/v1/auth/logout', { method: 'POST', bearer: session.get() });
-    if (!ok) throw new Error(data?.msg);
+    if (!ok) throw new Error(data.err);
     session.clear();
-    showModal(props, data?.msg)
+    showModal(props, data.msg)
     props.history.push('/auth/login');
   } catch (err) {
     showModal(props, err.message)
@@ -30,22 +30,18 @@ const onClick = async (props) => {
 }
 
 export default (props) => (
-  props.sidebar ?
-    <div className="sidebar">
-      <div className="wrapper">
-        <span
-          className='close'
-          onClick={() => props.toggleSidebar()}
-        >
-          <LuCircleX size={24} color='darkslateblue' />
-        </span>
-        <ul className="links">
-          {links.map(({ icon: Icon, label, link }) => (
-            <li key={label}><NavLink exact to={link}><Icon size={20} /> <span>{label}</span></NavLink></li>
-          ))}
-          <button onClick={() => onClick(props)}><LuLogOut size={20} /> <span>Logout</span></button>
-        </ul>
+  props.sidebar
+    ? (
+      <div className="sidebar">
+        <div className="wrapper">
+          <ul className="links">
+            {links.map(({ icon: Icon, label, link }) => (
+              <li key={label}><NavLink exact to={link}><Icon size={20} /> <span>{label}</span></NavLink></li>
+            ))}
+            <button onClick={() => onClick(props)}><LuLogOut size={20} /> <span>Logout</span></button>
+          </ul>
+        </div>
       </div>
-    </div>
+    )
     : null
 );

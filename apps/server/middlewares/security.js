@@ -7,7 +7,10 @@ import compression from 'compression';
 export function secureApp(app) {
   app.use(helmet());
   app.use(cors({
-    origin: 'http://localhost:5000',
+    origin: [
+      'http://localhost:5000',
+      'http://localhost:3000'
+    ],
     credentials: true
   }));
 

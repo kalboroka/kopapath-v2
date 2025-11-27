@@ -12,7 +12,7 @@ const list = async (req, res, next) => {
       [req.user.id]
     );
 
-    res.json(r.rows);
+    res.status(200).json(r.rows);
   } catch (e) { next(e); }
 }
 

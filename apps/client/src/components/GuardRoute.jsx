@@ -4,6 +4,7 @@ import { session } from '@utils';
 export default function GuardRoute({ component: WrappedComponent, render, ...rest }) {
   const renderComponent = (props) => {
     if (!session.isLoggedIn()) return <Redirect to="/auth/login" />;
+    if(rest.admin && !session.get('User')?.isAdmin) return <Redirect to="/" />;
     if (WrappedComponent) return <WrappedComponent {...props} />;
     if (render) return render(props);
     return null;

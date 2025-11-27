@@ -1,9 +1,9 @@
 import { pool } from '#config'
-import { hash, sendMsg, badReq } from '#utils';
+import { hash, sendMsg } from '#utils';
 
 const confirm_reset = async (req, res, next) => {
   const { token, secret } = req.body;
-  if (!token || !secret) return badReq(res);
+  if (!token || !secret) return res.status(400).json({err:'missing field'});
 
   try {
     const { rows } = await pool.query(
@@ -23,7 +23,7 @@ const confirm_reset = async (req, res, next) => {
       [hashed, rows[0].id]
     );
 
-    res.json({ msg: 'Secret updated successfully' });
+    res.status(200).json({ msg: 'Secret updated' });
     await sendMsg(rows[0].id, 'Your secret was changed.')
   } catch (err) { next(err); }
 }

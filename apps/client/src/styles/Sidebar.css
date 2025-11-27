@@ -1,6 +1,6 @@
 div.sidebar {
   position: absolute;
-  top: 0;
+  top: 3rem;
   right: 0;
   z-index: 1;
   width: 6.5rem;

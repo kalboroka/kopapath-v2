@@ -1,4 +1,5 @@
 import { linkEvent } from 'inferno';
+import { LuCircleX } from '@components/Icons';
 import '@styles/LoanModal.css';
 
 const LoanModal = ({ loan, onMark, onExit }) => (
@@ -6,6 +7,7 @@ const LoanModal = ({ loan, onMark, onExit }) => (
     ? (
       <div class="loan-modal">
         <div class="loan-wrapper">
+          <button class="exit" onClick={() => onExit()}><LuCircleX size={20} color='darkslateblue'/></button>
           <div class="user">
             <h5>User Details</h5>
             <div class="info">
@@ -35,7 +37,6 @@ const LoanModal = ({ loan, onMark, onExit }) => (
               <div class="active"><input name="mark" type="radio" value="active" required/></div>
               <div class="done"><input name="mark" type="radio" value="done" required/></div>
             </form>
-            <button class="exit" onClick={() => onExit()}>Exit</button>
           </div>
         </div>
       </div>

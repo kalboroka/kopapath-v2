@@ -1,16 +1,16 @@
 import { pool } from '#config';
-import { badReq, rotateRefresh, setRefreshCookie, hash, signAccess, sendMsg } from '#utils';
+import { rotateRefresh, setRefreshCookie, hash, signAccess, sendMsg } from '#utils';
 
 const signup = async (req, res, next) => {
   const { name, mobile, email, secret } = req.body;
-  if (!name || !mobile || !email || !secret) return badReq(res);
+  if (!name || !mobile || !email || !secret) return res.status(400).json({err: 'missing field'});
 
   try {
     const { rows: exists } = await pool.query(
       'SELECT id FROM users WHERE mobile=$1 OR email=$2',
       [mobile, email]
     );
-    if (exists.length) return res.status(409).json({ msg: 'User exists' });
+    if (exists.length) return res.status(409).json({ err: 'User exists' });
 
     const hashedSecret = await hash(secret);
     const { rows } = await pool.query(

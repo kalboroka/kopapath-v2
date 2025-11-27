@@ -9,7 +9,6 @@ import '@styles/AuthForm.css';
 const FIELD_META = {
   name: ['Name', 'text', 'Full Name'],
   userid: ['UserId', 'text', 'email or mobile'],
-  pxsign: ['PxSign', 'text', 'Px Sign'],
   mobile: ['Mobile', 'tel', '254X-XX-XXX-XXX'],
   email: ['Email', 'email', 'user@org.com'],
 };
@@ -81,7 +80,7 @@ export default class AuthForm extends Component {
         method: 'POST',
         body
       });
-      if (!ok) throw new Error(data?.msg);
+      if (!ok) throw new Error(data.err);
       showModal(this.props, data.msg, 'teal', LuInfo);
       if (mode === 'signup' || mode === 'reset') {
         return this.props.history.push('/auth/login');
@@ -89,7 +88,7 @@ export default class AuthForm extends Component {
       // login
       session.set(data.accessToken);
       session.set(data.user, 'User');
-      this.props.history.push(mode === 'admin' ? '/admin' : '/');
+      this.props.history.push('/');
     } catch (err) {
       showModal(this.props, err.message);
     } finally {
@@ -135,7 +134,6 @@ export default class AuthForm extends Component {
     const { mode, formChild: Child } = this.props.afxLocal;
     const isReset = mode === 'reset';
     const isSignup = mode === 'signup';
-    const isAdmin = mode === 'admin';
 
     return (
       <div class="form-container">
@@ -148,7 +146,7 @@ export default class AuthForm extends Component {
           <form onSubmit={this.submit}>
             {this.state.fields.map(this.renderField)}
 
-            {!isReset && !isAdmin && (
+            {!isReset && (
               <small class="cta">
                 {isSignup
                   ? <>Have an account? <Link to="/auth/login">Login</Link></>

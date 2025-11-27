@@ -13,12 +13,16 @@ export async function migDb() {
         name VARCHAR(100) NOT NULL,
         mobile VARCHAR(20) NOT NULL UNIQUE,
         email VARCHAR(150) NOT NULL UNIQUE,
-        pxsign TEXT,
         secret TEXT NOT NULL,
         refresh_token TEXT,
         reset_token TEXT,
         reset_expires TIMESTAMPTZ,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      
+      CREATE TABLE IF NOT EXISTS admins (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
       );
       
       CREATE TABLE IF NOT EXISTS loans (

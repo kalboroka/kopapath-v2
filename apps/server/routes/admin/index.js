@@ -1,6 +1,5 @@
 import express from 'express';
 import { requireAuth } from '#middlewares';
-import login from './login.js';
 import mark_status from './mark_status.js';
 import send_msg from './send_msg.js';
 import broadcast_msg from './broadcast_msg.js';
@@ -13,5 +12,4 @@ rt.post('/messages/broadcast', broadcast_msg);
 rt.post('/bucket/update', update_bucket);
 rt.patch('/loans/mark/:id', mark_status);
 
-export { login };
 export default rt;

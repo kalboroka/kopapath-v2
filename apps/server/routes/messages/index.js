@@ -6,8 +6,9 @@ import messages from './list.js';
 
 const rt = express.Router();
 
-rt.get('/', requireAuth, messages);
-rt.patch('/ack/:id', requireAuth, ack);
-rt.delete('/clean/:id', requireAuth, clean);
+rt.use(requireAuth);
+rt.get('/', messages);
+rt.patch('/ack/:id', ack);
+rt.delete('/clean/:id', clean);
 
 export default rt;

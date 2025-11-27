@@ -4,11 +4,12 @@ import { sendMsg } from '#utils';
 const apply = async (req, res, next) => {
   try {
     const { amount, term, rate, total_due } = req.body;
-    const userId = req.user.id;
 
     if (!amount || !term || !rate || !total_due) {
-      return res.status(400).json({ msg: 'Missing fields' });
+      return res.status(400).json({ err: 'Missing field' });
     }
+    
+    const userId = req.user.id;
 
     const q = `
       WITH
@@ -37,7 +38,7 @@ const apply = async (req, res, next) => {
       RETURNING id
     `;
 
-    const result = await pool.query(q, [
+    const r = await pool.query(q, [
       userId,
       amount,
       term,
@@ -46,11 +47,11 @@ const apply = async (req, res, next) => {
       term
     ]);
 
-    if (result.rows.length === 0) {
-      return res.status(400).json({ msg: 'loan not approved' });
+    if (r.rows.length === 0) {
+      return res.status(400).json({ err: 'loan not approved' });
     }
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json({msg: 'application sent'});
     await sendMsg(userId, 'Your loan application has been received. Kindly wait for approval.');
   } catch (err) {
     next(err);

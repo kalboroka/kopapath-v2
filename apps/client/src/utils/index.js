@@ -61,7 +61,7 @@ export async function apiFetch(url, options = {}) {
         session.set(accessToken);
         return apiFetch(url, { ...options, bearer: accessToken });
       } catch (_err) {
-        return { ok: false, data: { msg: _err.message } };
+        return { ok: false, data: { err: _err.message } };
       }
     }
     const contentType = res.headers.get('content-type') || '';
@@ -70,7 +70,7 @@ export async function apiFetch(url, options = {}) {
     return { ok: res.ok, data };
 
   } catch (err) {
-    const data = { msg: err.message };
+    const data = { err: err.message || 'Unknown Error' };
     return { ok: false, data };
   } finally {
     Refreshed = false;

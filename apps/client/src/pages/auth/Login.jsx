@@ -14,7 +14,7 @@ const handleForgot = async (props, e) => {
       method: 'POST',
       body: { userid: uid }
     });
-    if (!ok) throw new Error(data?.msg || 'could not send reset link');
+    if (!ok) throw new Error(data.err);
     showModal(props, 'Reset link sent', 'teal', LuInfo);
   } catch (err) {
     showModal(props, err.message);

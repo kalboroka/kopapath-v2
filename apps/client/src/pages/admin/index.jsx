@@ -1,4 +1,5 @@
 import { Component, linkEvent } from 'inferno';
+import { Link } from 'inferno-router';
 import LoanModal from './LoanModal';
 import { LuInfo } from '@components/Icons';
 import { apiFetch, session, showModal, toggleLoader } from '@utils';
@@ -23,7 +24,7 @@ export default class Admin extends Component {
     try {
       toggleLoader(this.props, 'on');
       const { ok, data } = await apiFetch('/api/v1/loans/joined', { bearer: session.get() });
-      if (!ok) throw new Error(data?.msg);
+      if (!ok) throw new Error(data.err);
       this.setState({ loans: data });
     } catch (err) {
       showModal(this.props, err.message);
@@ -45,8 +46,8 @@ export default class Admin extends Component {
         `/api/v1/admin/${ctx[1]}`,
         { method: 'POST', bearer: session.get(), body }
       );
-      if (!ok) throw new Error(data?.msg);
-      fields.forEach(f => form[f].value='');
+      if (!ok) throw new Error(data.err);
+      fields.forEach(f => form[f].value = '');
       showModal(this.props, data?.msg, 'teal', LuInfo);
     } catch (err) {
       showModal(this.props, err.message);
@@ -67,15 +68,15 @@ export default class Admin extends Component {
         bearer: session.get(),
         body: { status }
       });
-      if (!ok) throw new Error(data?.msg);
+      if (!ok) throw new Error(data.err);
 
       // update local list
       const loans = this.state.loans.map(l =>
         l.loan_id === loan.loan_id ? { ...l, status } : l
       );
 
-      this.setState({ loans });
-      showModal(this.props, data?.msg, 'teal', LuInfo);
+      this.setState({ loans, loanModal: false });
+      showModal(this.props, data.msg, 'teal', LuInfo);
     } catch (err) {
       showModal(this.props, err.message);
     }
@@ -83,17 +84,16 @@ export default class Admin extends Component {
   };
 
   render() {
-    const { user } = this.props;
     const { tabs, loans, loanModal } = this.state;
     return (
       <div class="admin-page">
         <div class="header">
           <div class="wrapper">
             <div class="logo">
-              <h3 class="title">KopaPath</h3>
+              <h3 class="title"><Link to='/'>KopaPath</Link></h3>
             </div>
             <div class="admin-user">
-              <h5 class="info">Admin: {user.name}</h5>
+              <h5 class="info">Admin: {this.props.user.name}</h5>
             </div>
           </div>
         </div>

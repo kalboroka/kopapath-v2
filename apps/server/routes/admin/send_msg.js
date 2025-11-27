@@ -2,7 +2,7 @@ import { pool } from '#config';
 
 const send = async (req, res, next) => {
   const { receiver, message } = req.body;
-  if (!receiver || !message) return res.status(401).json({ msg: 'missing fields' });
+  if (!receiver || !message) return res.status(400).json({ err: 'missing field' });
 
   try {
     await pool.query(
@@ -24,7 +24,7 @@ const send = async (req, res, next) => {
       `,
       [receiver]
     );
-    res.status(200).json({msg: 'message sent'})
+    res.status(201).json({msg: 'message sent'})
   } catch (err) {
     next(err)
   }

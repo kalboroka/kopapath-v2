@@ -12,7 +12,7 @@ export default class List extends Component {
     try {
       toggleLoader(this.props, 'on');
       const { ok, data } = await apiFetch('/api/v1/loans', { bearer: session.get() });
-      if (!ok) throw new Error(data?.msg);
+      if (!ok) throw new Error(data.err);
       this.setState({ loans: data });
     } catch (err) {
       showModal(this.props, err.message);

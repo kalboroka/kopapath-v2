@@ -62,9 +62,6 @@ export async function sendMsg(userId, msg) {
   return res.rows.length !== 0;
 }
 
-export const badReq = (res, msg = 'credentials unmatched') =>
-  res.status(400).json({ msg: msg });
-
 export const setRefreshCookie = (res, token, uid) => {
   const opts = {
     httpOnly: true,
