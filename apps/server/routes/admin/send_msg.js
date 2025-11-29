@@ -5,7 +5,7 @@ const send = async (req, res, next) => {
   if (!receiver || !message) return res.status(400).json({ err: 'missing field' });
 
   try {
-    await pool.query(
+    const r = await pool.query(
       `
       WITH
         uxst AS (
@@ -21,10 +21,12 @@ const send = async (req, res, next) => {
         FROM uxst
         WHERE
           EXISTS(SELECT 1 from uxst)
+        RETURNING 1
       `,
       [receiver]
     );
-    res.status(201).json({msg: 'message sent'})
+    if (r.rows.length === 0) return res.status(400).json({ err: 'message not sent' })
+    res.status(201).json({ msg: 'message sent' })
   } catch (err) {
     next(err)
   }

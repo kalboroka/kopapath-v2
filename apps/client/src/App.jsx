@@ -51,14 +51,14 @@ export default class App extends Component {
     return (
       <>
         <Switch>
-          <GuardRoute exact path="/" render={(rp) => <Home {...rp} user={this.state.user} dispatch={this.dispatch} onComponentDidMount={this.updateUser} />} />
+          <Route exact path="/" render={(rp) => <Home {...rp} user={this.state.user} dispatch={this.dispatch} onComponentDidMount={this.updateUser} />} />
           <Route path="/auth" render={(rp) => <Auth {...rp} dispatch={this.dispatch} />} />
           <GuardRoute path="/admin" admin render={(rp) => <Admin {...rp} dispatch={this.dispatch} user={this.state.user} updateUser={this.updateUser} />} />
           <GuardRoute path="/messages" render={(rp) => <Messages {...rp} user={this.state.user} dispatch={this.dispatch} />} />
           <GuardRoute path="/loans" render={(rp) => <Loans {...rp} user={this.state.user} dispatch={this.dispatch} />} />
-          <GuardRoute path="/fqas" render={(rp) => <FQAs {...rp} />} dispatch={this.dispatch} />
           <GuardRoute path="/account" render={(rp) => <Account {...rp} user={this.state.user} dispatch={this.dispatch} onComponentDidMount={this.updateUser} />} />
-          <GuardRoute path="/about" render={(rp) => <About {...rp} dispatch={this.dispatch} />} />
+          <Route path="/fqas" render={(rp) => <FQAs {...rp} />} dispatch={this.dispatch} />
+          <Route path="/about" render={(rp) => <About {...rp} dispatch={this.dispatch} />} />
         </Switch>
         {!this.state.modal.on && this.state.loader && <Loader />}
         {this.state.modal.on && <Modal {...this.state.modal} onComponentDidMount={modalMounted} onComponentWillUnmount={modalUnmounted} close={() => this.setState({ modal: { ...this.state.modal, on: false } })} />}

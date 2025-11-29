@@ -63,7 +63,7 @@ export default class Admin extends Component {
     if (!elm || !(status = elm?.mark.value) || loan.status === status) return;
     toggleLoader(this.props, 'on');
     try {
-      const { ok, data } = await apiFetch(`/api/v1/admin/loans/mark/${loan.loan_id}`, {
+      const { ok, data } = await apiFetch(`/api/v1/admin/loans/mark/${loan.id}`, {
         method: 'PATCH',
         bearer: session.get(),
         body: { status }
@@ -72,7 +72,7 @@ export default class Admin extends Component {
 
       // update local list
       const loans = this.state.loans.map(l =>
-        l.loan_id === loan.loan_id ? { ...l, status } : l
+        l.id === loan.id ? { ...l, status } : l
       );
 
       this.setState({ loans, loanModal: false });
@@ -150,7 +150,7 @@ export default class Admin extends Component {
           <details class="view-loans">
             <summary>View Loans</summary>
             <div class="details">
-              {loanModal && <LoanModal loan={loans.find(l => l.loan_id === this.state.loanId)} onExit={() => this.setState({ loanModal: false })} onMark={this.markLoanStatus} />}
+              {loanModal && <LoanModal loan={loans.find(l => l.id === this.state.loanId)} onExit={() => this.setState({ loanModal: false })} onMark={this.markLoanStatus} />}
               <h6 class="warning">NOTE: Update Cautiously!</h6>
               <div
                 class="tabs"
@@ -186,7 +186,7 @@ export default class Admin extends Component {
                         }
                       }}
                     >{loans.filter(l => tabs.all || tabs[l.status]).map(l =>
-                      <tr key={l.loan_id}><td>{l.loan_id}</td><td>{fmt(l.amount)}</td><td>{l.term}</td><td>{l.status}</td><td>{fmt(l.total_due)}</td></tr>
+                      <tr key={l.id}><td>{l.id}</td><td>{fmt(l.amount)}</td><td>{l.term}</td><td>{l.status}</td><td>{fmt(l.total_due)}</td></tr>
                     )}</tbody>
                   </table>
                 </>

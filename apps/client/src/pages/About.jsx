@@ -14,8 +14,8 @@ export default (p) => (
         <p><strong>KopaPath</strong> is built in Kenya for Kenyans—secure, compliant, and always improving to serve you better.</p>
         <p className="contact">
           <h4>For help or questions:</h4>
-          <a href="mailto:support@kopapath.com"><LuMail size={16}/> <span className='text'>support@kopapath.com</span></a>
-          <a href="tel:+254711111111"><LuPhone size={16}/><span>+254 711 111 111</span></a>
+          <a href="mailto:pathkopa@gmail.com"><LuMail size={16}/> <span className='text'>pathkopa@gmail.com</span></a>
+          <a href="tel:+254762532269"><LuPhone size={16}/><span>+254 762 532 269</span></a>
         </p>
       </div>
     </div>

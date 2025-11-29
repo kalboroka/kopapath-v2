@@ -26,7 +26,7 @@ export const session = {
 // -----------------------
 // API Fetch
 // -----------------------
-const BaseURL = ""; //"http://localhost:5000";
+const BaseURL = "";
 let Refreshed = false;
 
 export async function apiFetch(url, options = {}) {
@@ -100,6 +100,6 @@ export const showModal = (props, msg, clr = 'orangered', Icon = LuCircleAlert) =
 // -----------------------
 // Loader
 // -----------------------
-export const toggleLoader = (props, status = 'off') => props.dispatch({
+export const toggleLoader = (props, status = 'off') => props.dispatch && props.dispatch({
   type: 'setLoader', value: status === 'on'
 });

@@ -37,9 +37,9 @@ export default class List extends Component {
             {loans.length ? (<>
               <h5>Your recent loans:</h5>
               <table>
-                <thead><tr><th>Ref</th><th>Amount</th><th>Term</th><th>TotalDue</th><th>Status</th></tr></thead>
+                <thead><tr><th>Ref</th><th>Amount</th><th>Term</th><th>Status</th><th>TotalDue</th></tr></thead>
                 <tbody>{loans.map(l =>
-                  <tr key={l.id}><td>{l.id}</td><td>{fmt(l.amount)}</td><td>{l.term}</td><td>{l.total_due}</td><td>{l.status}</td></tr>
+                  <tr key={l.id}><td>{l.id}</td><td>{fmt(l.amount)}</td><td>{l.term}</td><td>{l.status}</td><td>{fmt(l.total_due)}</td></tr>
                 )}</tbody>
               </table>
             </>
